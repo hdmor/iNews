@@ -11,6 +11,7 @@ import com.i.news.domain.usecase.app_entry.ReadAppEntry
 import com.i.news.domain.usecase.app_entry.SaveAppEntry
 import com.i.news.domain.usecase.news.GetAllNews
 import com.i.news.domain.usecase.news.NewsUseCase
+import com.i.news.domain.usecase.news.SearchNews
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +44,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsUseCase(repository: NewsRepository): NewsUseCase = NewsUseCase(GetAllNews(repository))
+    fun provideNewsUseCase(repository: NewsRepository): NewsUseCase = NewsUseCase(GetAllNews(repository), SearchNews(repository))
 }

@@ -9,6 +9,13 @@ interface ApiService {
     @GET("everything")
     suspend fun getAllNews(@Query("page") page: Int, @Query("sources") sources: String, @Query("apiKey") apiKey: String = API_KEY): NewsDto
 
+    @GET("everything")
+    suspend fun searchNews(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("sources") sources: String,
+        @Query("apiKey") apiKey: String = API_KEY
+    ) : NewsDto
 
     companion object {
         const val BASE_URL = "https://newsapi.org/v2/"
