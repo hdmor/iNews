@@ -1,6 +1,6 @@
-package com.i.news.data.remote
+package com.i.news.data.source.remote
 
-import com.i.news.data.remote.dto.NewsDto
+import com.i.news.data.source.remote.dto.NewsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

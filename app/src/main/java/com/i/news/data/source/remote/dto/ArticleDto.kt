@@ -1,4 +1,4 @@
-package com.i.news.data.remote.dto
+package com.i.news.data.source.remote.dto
 
 
 import com.google.gson.annotations.SerializedName

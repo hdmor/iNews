@@ -1,11 +1,12 @@
-package com.i.news.data.remote
+package com.i.news.data.source.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.i.news.data.remote.dto.toNews
+import com.i.news.data.source.remote.dto.toNews
 import com.i.news.domain.model.Article
 
-class NewsPagingSource(private val apiService: ApiService, private val sources: String) : PagingSource<Int, Article>() {
+class SearchNewsPagingSource(private val apiService: ApiService, private val query: String, private val sources: String) :
+    PagingSource<Int, Article>() {
 
     private var totalNewsCount = 0
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
@@ -18,7 +19,7 @@ class NewsPagingSource(private val apiService: ApiService, private val sources: 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1
         return try {
-            val news = apiService.getAllNews(page = page, sources = sources).toNews()
+            val news = apiService.searchNews(query = query, page = page, sources = sources).toNews()
             totalNewsCount += news.articles.size
             val articles = news.articles.distinctBy { it.title }
             LoadResult.Page(

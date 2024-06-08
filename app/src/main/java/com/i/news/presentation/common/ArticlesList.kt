@@ -14,6 +14,15 @@ import androidx.paging.compose.LazyPagingItems
 import com.i.news.domain.model.Article
 
 @Composable
+fun ArticlesList(modifier: Modifier = Modifier, articles: List<Article>, onClick: (Article) -> Unit) {
+    LazyColumn(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(4.dp)) {
+        items(count = articles.size) {
+            ArticleCard(article = articles[it]) { onClick(articles[it]) }
+        }
+    }
+}
+
+@Composable
 fun ArticlesList(modifier: Modifier = Modifier, articles: LazyPagingItems<Article>, onClick: (Article) -> Unit) {
     val handlePagingResult = handlePagingResult(articles = articles)
     if (handlePagingResult) {
@@ -41,10 +50,12 @@ fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
             ShimmerEffect()
             false
         }
+
         error != null -> {
             EmptyScreen(error = error)
             false
         }
+
         else -> {
             true
         }

@@ -25,13 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import com.i.news.R
 import com.i.news.domain.model.Article
-import com.i.news.presentation.Routes
 import com.i.news.presentation.common.ArticlesList
 import com.i.news.presentation.common.SearchBar
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navigate: (String) -> Unit, articles: LazyPagingItems<Article>) {
+fun HomeScreen(modifier: Modifier = Modifier, articles: LazyPagingItems<Article>, navigateToSearch: () -> Unit, navigateToDetail: (Article) -> Unit) {
     val titles by remember {
         derivedStateOf {
             if (articles.itemCount > 10)
@@ -52,9 +51,9 @@ fun HomeScreen(modifier: Modifier = Modifier, navigate: (String) -> Unit, articl
             text = "",
             readOnly = true,
             onValueChanged = { /*TODO*/ },
-            onSearchImeActionButtonClicked = { /*TODO*/ }) {
-            navigate(Routes.SearchScreen.route)
-        }
+            onSearchImeActionButtonClicked = { /*TODO*/ },
+            onClick = navigateToSearch
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = titles,
@@ -63,8 +62,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navigate: (String) -> Unit, articl
             fontSize = 12.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
-        ArticlesList(modifier = Modifier.padding(horizontal = 8.dp), articles = articles) {
-            navigate(Routes.DetailScreen.route)
-        }
+        ArticlesList(modifier = Modifier.padding(horizontal = 8.dp), articles = articles, onClick = { navigateToDetail(it) })
     }
 }

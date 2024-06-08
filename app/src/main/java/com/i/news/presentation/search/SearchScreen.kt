@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.i.news.presentation.Routes
+import com.i.news.domain.model.Article
 import com.i.news.presentation.common.ArticlesList
 import com.i.news.presentation.common.SearchBar
 
 @Composable
-fun SearchScreen(modifier: Modifier = Modifier, state: SearchState, event: (SearchEvent) -> Unit, navigate: (String) -> Unit) {
+fun SearchScreen(modifier: Modifier = Modifier, state: SearchState, event: (SearchEvent) -> Unit, navigateToDetail: (Article) -> Unit) {
 
     Column(modifier = modifier.fillMaxSize().padding(start = 8.dp, top = 8.dp, end = 8.dp).statusBarsPadding()) {
         SearchBar(
@@ -26,9 +26,7 @@ fun SearchScreen(modifier: Modifier = Modifier, state: SearchState, event: (Sear
         Spacer(modifier = Modifier.height(8.dp))
         state.articles?.let {
             val articles = it.collectAsLazyPagingItems()
-            ArticlesList(articles = articles) {
-                navigate(Routes.DetailScreen.route)
-            }
+            ArticlesList(articles = articles, onClick = navigateToDetail)
         }
     }
 }
