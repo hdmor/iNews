@@ -46,26 +46,32 @@ fun NewsNavigator(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     val backstackState = navController.currentBackStackEntryAsState().value
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
-    selectedItem = when (backstackState?.destination?.route) {
-        Routes.HomeScreen.route -> 0
-        Routes.SearchScreen.route -> 1
-        Routes.BookmarkScreen.route -> 2
-        else -> 0
+    selectedItem = remember(key1 = backstackState) {
+        when (backstackState?.destination?.route) {
+            Routes.HomeScreen.route -> 0
+            Routes.SearchScreen.route -> 1
+            Routes.BookmarkScreen.route -> 2
+            else -> 0
+        }
+    }
+    val bottomNavigationVisibility = remember(key1 = backstackState) {
+        backstackState?.destination?.route == Routes.HomeScreen.route || backstackState?.destination?.route == Routes.SearchScreen.route || backstackState?.destination?.route == Routes.BookmarkScreen.route
     }
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
-            NewsBottomNavigation(
-                items = bottomNavigationItems,
-                selected = selectedItem,
-                onItemClicked = {
-                    when (it) {
-                        0 -> navigateToTab(navController, Routes.HomeScreen.route)
-                        1 -> navigateToTab(navController, Routes.SearchScreen.route)
-                        2 -> navigateToTab(navController, Routes.BookmarkScreen.route)
+            if (bottomNavigationVisibility)
+                NewsBottomNavigation(
+                    items = bottomNavigationItems,
+                    selected = selectedItem,
+                    onItemClicked = {
+                        when (it) {
+                            0 -> navigateToTab(navController, Routes.HomeScreen.route)
+                            1 -> navigateToTab(navController, Routes.SearchScreen.route)
+                            2 -> navigateToTab(navController, Routes.BookmarkScreen.route)
+                        }
                     }
-                }
-            )
+                )
         }
     ) { paddingValues ->
         val bottomPadding = paddingValues.calculateBottomPadding()
