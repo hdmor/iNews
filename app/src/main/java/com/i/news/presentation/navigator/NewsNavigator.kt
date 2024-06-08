@@ -1,5 +1,6 @@
 package com.i.news.presentation.navigator
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -25,6 +27,7 @@ import com.i.news.domain.model.Article
 import com.i.news.presentation.Routes
 import com.i.news.presentation.bookmark.BookmarkScreen
 import com.i.news.presentation.bookmark.BookmarkViewModel
+import com.i.news.presentation.detail.DetailEvent
 import com.i.news.presentation.detail.DetailScreen
 import com.i.news.presentation.detail.DetailViewModel
 import com.i.news.presentation.home.HomeScreen
@@ -96,7 +99,10 @@ fun NewsNavigator(modifier: Modifier = Modifier) {
 
             composable(route = Routes.DetailScreen.route) {
                 val viewModel: DetailViewModel = hiltViewModel()
-                // todo: remember to handle the sideEffect variable in the viewModel!!
+                if (viewModel.sideEffect != null) {
+                    Toast.makeText(LocalContext.current, viewModel.sideEffect, Toast.LENGTH_SHORT).show()
+                    viewModel.onEvent(DetailEvent.RemovedSideEffect)
+                }
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
                     DetailScreen(article = article, event = viewModel::onEvent, navigateUp = { navController.navigateUp() })
                 }
