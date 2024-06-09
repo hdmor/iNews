@@ -1,6 +1,5 @@
 package com.i.news.presentation.common
 
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -8,7 +7,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,7 +51,7 @@ fun SearchBar(
             modifier = Modifier.fillMaxWidth().searchBarBorder(),
             readOnly = readOnly,
             textStyle = MaterialTheme.typography.bodySmall,
-            placeholder = { Text(text = "Search", color = colorResource(id = R.color.placeholder), style = MaterialTheme.typography.bodySmall) },
+            placeholder = { Text(text = "Search", color = colorResource(id = R.color.placeholder), style = MaterialTheme.typography.bodyMedium) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
