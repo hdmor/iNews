@@ -15,6 +15,7 @@ import com.i.news.domain.model.Article
 
 @Composable
 fun ArticlesList(modifier: Modifier = Modifier, articles: List<Article>, onClick: (Article) -> Unit) {
+    if (articles.isEmpty()) EmptyScreen()
     LazyColumn(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(4.dp)) {
         items(count = articles.size) {
             ArticleCard(article = articles[it]) { onClick(articles[it]) }
